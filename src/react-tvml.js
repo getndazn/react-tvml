@@ -44,8 +44,47 @@ Injection.NativeComponent.injectTextComponentClass(TextComponent);
 
 // Injection.Class.injectMixin(ReactBrowserComponentMixin);
 
-// Injection.DOMProperty.injectDOMPropertyConfig(HTMLDOMPropertyConfig);
-// Injection.DOMProperty.injectDOMPropertyConfig(SVGDOMPropertyConfig);
+
+// configure react to allow the tvml attributes
+var TVMLPropertyList = [
+    'accessibilityText',
+    'allowsZooming',
+    'aspectFill',
+    'audioMode',
+    'autoHighlight',
+    'centered',
+    'firstName',
+    'handlesOverflow',
+    'keyboardType',
+    'lastName',
+    'mode',
+    'playbackMode',
+    'rowCount',
+    'showSpinner',
+    'showsScrollIndicator',
+    'secure',
+    'theme'
+];
+var properties = {};
+var attributeNames = {}
+
+for(var i = 0, length = TVMLPropertyList.length; i < length; i++){
+    properties[TVMLPropertyList[i]] = null;
+    attributeNames[TVMLPropertyList[i]] = TVMLPropertyList[i]
+}
+
+var TVMLPropertyConfig = {
+  isCustomAttribute: function(attributeName) {
+    return TVMLPropertyList.indexOf(attributeName) !== -1;
+  },
+  Properties: properties,
+  DOMAttributeNames: attributeNames,
+  DOMPropertyNames: {}
+};
+
+Injection.DOMProperty.injectDOMPropertyConfig(TVMLPropertyConfig);
+
+
 //
 // Injection.EmptyComponent.injectEmptyComponent('noscript');
 
