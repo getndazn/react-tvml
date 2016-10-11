@@ -691,9 +691,25 @@ var TVMLMount = {
    * @param {?function} callback function triggered on completion
    * @return {ReactComponent} Component instance rendered in `container`.
    */
-  render: function(nextElement, callback) {
+  render: function(nextElement, callback, styles) {
     var container = TVMLMount.generateEmptyContainer();
     var component = TVMLMount._renderSubtreeIntoContainer(null, nextElement, container, callback);
+
+    try {
+        if(styles){
+            var docEl = container.getElementsByTagName('document').item(0);
+            var styleString = ['<style>', styles, '</style>'].join('');
+            var headTag = container.getElementsByTagName('head');
+
+            headTag = headTag && headTag.item(0);
+            if (!headTag) {
+                headTag = container.createElement('head');
+                docEl.insertBefore(headTag, docEl.firstChild);
+            }
+            headTag.innerHTML = styleString;
+        }
+    } catch(e){}
+
     navigationDocument.pushDocument(container);
     return component;
   },
