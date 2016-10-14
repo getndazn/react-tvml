@@ -436,11 +436,11 @@ var TVMLMount = {
   /** Exposed for debugging purposes **/
   _instancesByReactRootID: instancesByReactRootID,
 
-  generateEmptyContainer: function () {
+  generateEmptyContainer: function (isModal) {
     var doc = parser.parseFromString('<document></document>', 'text/xml');
 
     // reset the global document on every new page render
-    if (global.document) global.document = doc;
+    if (global.document && !isModal) global.document = doc;
 
     return doc;
   },
@@ -696,8 +696,8 @@ var TVMLMount = {
    * @param {?function} callback function triggered on completion
    * @return {ReactComponent} Component instance rendered in `container`.
    */
-  render: function(nextElement, callback, styles) {
-    var container = TVMLMount.generateEmptyContainer();
+  render: function(nextElement, callback, styles, isModal) {
+    var container = TVMLMount.generateEmptyContainer(isModal);
     var component = TVMLMount._renderSubtreeIntoContainer(null, nextElement, container, callback);
 
     try {
@@ -715,8 +715,7 @@ var TVMLMount = {
         }
     } catch(e){}
 
-    navigationDocument.pushDocument(container);
-    return component;
+    return container;
   },
 
   /**
