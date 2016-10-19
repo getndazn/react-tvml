@@ -50,9 +50,7 @@ var STYLE = keyOf({
   'style': null
 });
 
-var COMPONENT_CLASSES = {
-  menubar: require('./menuBar')
-};
+var COMPONENT_CLASSES = {};
 
 function getDeclarationErrorAddendum(internalInstance) {
   if (internalInstance) {

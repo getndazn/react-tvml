@@ -715,10 +715,7 @@ var TVMLMount = {
         }
     } catch(e){}
 
-    if(!isModal) navigationDocument.pushDocument(container);
-    else navigationDocument.presentModal(container);
-
-    return component;
+    return container;
   },
 
   /**
