@@ -77,7 +77,25 @@ function getReactRootElementInContainer(container) {
     return null;
   }
 
-  return container.documentElement;
+  if (container.nodeType === DOC_NODE_TYPE) {
+    return container.documentElement;
+  } else {
+    //return container.firstChild;
+    if(container.childNodes.length > 1){
+        var nodes = container.childNodes;
+        var el;
+        var i = 0;
+        while(!el && i < nodes.length){
+            if(nodes.item(i).tagName.toUpperCase() !== 'HEAD'){
+                el = nodes.item(i);
+            }
+            i++;
+        }
+        return el;
+    } else {
+        return container;
+    }
+  }
 }
 
 /**
@@ -324,7 +342,7 @@ function batchedMountComponentIntoNode(
  * @see {TVMLMount.unmountComponentAtNode}
  */
 function unmountComponentFromNode(instance, container) {
-  ReactReconciler.unponent(instance);
+  ReactReconciler.unmountComponent(instance);
 
   if (container.nodeType === DOC_NODE_TYPE) {
     container = container.documentElement;
@@ -715,10 +733,7 @@ var TVMLMount = {
         }
     } catch(e){}
 
-    if(!isModal) navigationDocument.pushDocument(container);
-    else navigationDocument.presentModal(container);
-
-    return component;
+    return container;
   },
 
   /**
