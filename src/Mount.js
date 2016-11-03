@@ -80,7 +80,6 @@ function getReactRootElementInContainer(container) {
   if (container.nodeType === DOC_NODE_TYPE) {
     return container.documentElement;
   } else {
-    //return container.firstChild;
     if(container.childNodes.length > 1){
         var nodes = container.childNodes;
         var el;

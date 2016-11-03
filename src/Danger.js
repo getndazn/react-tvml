@@ -39,6 +39,20 @@ function getNodeName(markup) {
 
 var Danger = {
 
+    dangerouslyReplaceNodeWithMarkup: function (oldChild, markup) {
+      !ExecutionEnvironment.canUseDOM ? process.env.NODE_ENV !== 'production' ? invariant(false, 'dangerouslyReplaceNodeWithMarkup(...): Cannot render markup in a ' + 'worker thread. Make sure `window` and `document` are available ' + 'globally before requiring React when unit testing or use ' + 'ReactDOMServer.renderToString() for server rendering.') : invariant(false) : undefined;
+      !markup ? process.env.NODE_ENV !== 'production' ? invariant(false, 'dangerouslyReplaceNodeWithMarkup(...): Missing markup.') : invariant(false) : undefined;
+      !(oldChild.tagName.toLowerCase() !== 'html') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'dangerouslyReplaceNodeWithMarkup(...): Cannot replace markup of the ' + '<html> node. This is because browser quirks make this unreliable ' + 'and/or slow. If you want to render to the root you must use ' + 'server rendering. See ReactDOMServer.renderToString().') : invariant(false) : undefined;
+
+      var newChild;
+      if (typeof markup === 'string') {
+        newChild = createNodesFromMarkup(markup, emptyFunction)[0];
+      } else {
+        newChild = markup;
+      }
+      oldChild.parentNode.replaceChild(newChild, oldChild);
+  },
+
   /**
    * Renders markup into an array of nodes. The markup is expected to render
    * into a list of root nodes. Also, the length of `resultList` and

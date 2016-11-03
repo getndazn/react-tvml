@@ -23,7 +23,8 @@ var ReactTVMLIDOperations = {
    */
   replaceNodeWithMarkupByID: function(id, markup) {
     var node = Mount.getNode(id);
-    DOMChildrenOperations.dangerouslyReplaceNodeWithMarkup(node, markup);
+
+    Danger.dangerouslyReplaceNodeWithMarkup(node, markup);
   },
 
   /**

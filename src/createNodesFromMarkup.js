@@ -47,7 +47,8 @@ function getNodeName(markup) {
  * @return {array<DOMElement|DOMTextNode>} An array of rendered nodes.
  */
 function createNodesFromMarkup(markup, handleScript) {
-  var node = document.createElement('div');
+  var doc = getActiveDocument();
+  var node = doc.createElement('div');
 
   var nodeName = getNodeName(markup);
 
