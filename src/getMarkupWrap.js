@@ -72,7 +72,8 @@ svgElements.forEach(function (nodeName) {
  * @return {?array} Markup wrap configuration, if applicable.
  */
 function getMarkupWrap(nodeName) {
-  var dummyNode = document.createElement('div');
+  var doc = getActiveDocument();
+  var dummyNode = doc.createElement('div');
 
   if (!markupWrap.hasOwnProperty(nodeName)) {
     nodeName = '*';
