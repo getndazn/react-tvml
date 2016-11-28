@@ -925,6 +925,10 @@ var TVMLMount = {
       );
     }
 
+    if(!deepestAncestor){
+        return null;
+    }
+
     firstChildren[0] = deepestAncestor.firstChild;
     firstChildren.length = 1;
 
