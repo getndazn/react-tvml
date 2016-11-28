@@ -37,10 +37,28 @@ var ReactTVMLIDOperations = {
   processChildrenUpdates: function(updates, markup) {
     var markupString = Danger.dangerouslyRenderMarkup(markup);
 
-    DOMChildrenOperations.processUpdates(updates.map(function(update) {
-      update.parentNode = Mount.getNode(update.parentID);
-      return update;
-    }), markupString);
+    try {
+        DOMChildrenOperations.processUpdates(updates.map(function(update) {
+            update.parentNode = Mount.getNode(update.parentID);
+            if(!update.parentNode){
+                // probably this is the second update for a document that isnt the current one
+                // so we have already unmounted by this point.
+                return false;
+            }
+
+            if(update.parentNode.ownerDocument.pathname !== getActiveDocument().pathname){
+                Mount.unmountComponentAtNode(update.parentNode.ownerDocument.documentElement);
+                update.parentNode.ownerDocument.invalidated = true;
+
+                return false;
+            }
+
+            return update;
+        }).filter(function(u){
+            return !!u
+        }), markupString);
+
+    } catch (e){}
   },
 
   /**
