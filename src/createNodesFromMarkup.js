@@ -19,6 +19,7 @@ var ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
 var createArrayFromMixed = require('fbjs/lib/createArrayFromMixed');
 var getMarkupWrap = require('fbjs/lib/getMarkupWrap');
 var invariant = require('fbjs/lib/invariant');
+var tvmlDocument = require('./utils/tvmlDocument');
 
 /**
  * Pattern used by `getNodeName`.
@@ -47,7 +48,7 @@ function getNodeName(markup) {
  * @return {array<DOMElement|DOMTextNode>} An array of rendered nodes.
  */
 function createNodesFromMarkup(markup, handleScript) {
-  var doc = getActiveDocument();
+  var doc = tvmlDocument.getActiveDocument();;
   var node = doc.createElement('div');
 
   var nodeName = getNodeName(markup);

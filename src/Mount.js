@@ -24,6 +24,7 @@ var setInnerHTML = require('react/lib/setInnerHTML');
 var shouldUpdateReactComponent = require('react/lib/shouldUpdateReactComponent');
 var validateDOMNesting = require('react/lib/validateDOMNesting');
 var warning = require('fbjs/lib/warning');
+var tvmlDocument = require('./utils/tvmlDocument');
 
 var parser = new DOMParser();
 var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
@@ -453,11 +454,11 @@ var TVMLMount = {
   /** Exposed for debugging purposes **/
   _instancesByReactRootID: instancesByReactRootID,
 
-  generateEmptyContainer: function (isModal) {
+  generateEmptyContainer: function () {
     var doc = parser.parseFromString('<document></document>', 'text/xml');
 
     // reset the global document on every new page render
-    if (global.document && !isModal) global.document = doc;
+    if (global.document) global.document = doc;
 
     return doc;
   },
@@ -713,9 +714,13 @@ var TVMLMount = {
    * @param {?function} callback function triggered on completion
    * @return {ReactComponent} Component instance rendered in `container`.
    */
-  render: function(nextElement, callback, styles, isModal) {
-    var container = TVMLMount.generateEmptyContainer(isModal);
+  render: function(nextElement, callback, styles, isPlayerOverlay) {
+    var container = TVMLMount.generateEmptyContainer();
     var component = TVMLMount._renderSubtreeIntoContainer(null, nextElement, container, callback);
+
+    if(isPlayerOverlay) {
+        tvmlDocument.setOverlayDocument(container);
+    }
 
     try {
         if(styles){

@@ -16,6 +16,7 @@
 var ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
 
 var invariant = require('fbjs/lib/invariant');
+var tvmlDocument = require('./utils/tvmlDocument');
 
 /**
  * Some browsers cannot use `innerHTML` to render certain elements standalone,
@@ -72,7 +73,7 @@ svgElements.forEach(function (nodeName) {
  * @return {?array} Markup wrap configuration, if applicable.
  */
 function getMarkupWrap(nodeName) {
-  var doc = getActiveDocument();
+  var doc =  tvmlDocument.getActiveDocument();
   var dummyNode = doc.createElement('div');
 
   if (!markupWrap.hasOwnProperty(nodeName)) {
