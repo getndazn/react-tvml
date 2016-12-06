@@ -7,6 +7,7 @@ var Mount = require('./Mount');
 var Danger = require('./Danger');
 
 var invariant = require('fbjs/lib/invariant');
+var tvmlDocument = require('./utils/tvmlDocument');
 
 
 /**
@@ -46,7 +47,7 @@ var ReactTVMLIDOperations = {
                 return false;
             }
 
-            if(update.parentNode.ownerDocument.pathname !== getActiveDocument().pathname){
+            if(update.parentNode.ownerDocument.uuid !== tvmlDocument.getActiveDocument().uuid){
                 Mount.unmountComponentAtNode(update.parentNode.ownerDocument.documentElement);
                 update.parentNode.ownerDocument.invalidated = true;
 
