@@ -3,7 +3,7 @@
 // we should then return the overlay document
 var overlayDocument = null;
 
-function setOverlayDocument(doc = null) {
+function setOverlayDocument(doc) {
     overlayDocument = doc;
 }
 
