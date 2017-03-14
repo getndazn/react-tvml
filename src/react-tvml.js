@@ -7,6 +7,7 @@ var EventPluginRegistry = require('react/lib/EventPluginRegistry');
 var ComponentEnvironment = require('react/lib/ReactComponentEnvironment');
 var ReactIsomorphic = require('react/lib/ReactIsomorphic');
 var ReactDOMServer = require('react/lib/ReactDOMServer');
+var DOMProperty = require('react/lib/DOMProperty');
 var EventPlugin = require('./EventPlugin');
 var EventListener = require('./EventListener');
 var Component = require('./Component');
@@ -44,6 +45,11 @@ Injection.NativeComponent.injectTextComponentClass(TextComponent);
 
 // Injection.Class.injectMixin(ReactBrowserComponentMixin);
 
+// ensure react uses setAttribute to update these properties instead of accessing
+// them directly using dot notation since tvml doesn't like that
+// Perhaps we should update all properties to use setAttribute?
+DOMProperty.properties['src'].mustUseAttribute = true;
+DOMProperty.properties['className'].mustUseAttribute = true;
 
 // configure react to allow the tvml attributes
 var TVMLPropertyList = [
